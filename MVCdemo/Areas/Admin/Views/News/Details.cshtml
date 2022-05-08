@@ -1,0 +1,82 @@
+﻿@model MVCdemo.Models.News
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>News</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Catalog.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Catalog.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Article)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Article)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Articles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Articles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.initDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.initDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewsClass)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

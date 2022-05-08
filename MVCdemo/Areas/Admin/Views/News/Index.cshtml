@@ -1,0 +1,82 @@
+﻿@using MvcPaging
+@model MvcPaging.IPagedList<MVCdemo.Models.News>
+@*@model IEnumerable<MVCdemo.Models.News>*@
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Catalog.Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Article)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Articles)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().initDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().NewsClass)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Catalog.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Article)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Articles)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.initDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewsClass)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="pagination">
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
+</div>
+<div class="page_boxR"> 資料筆數：@ViewBag.count</div>

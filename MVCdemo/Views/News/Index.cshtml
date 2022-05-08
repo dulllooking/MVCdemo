@@ -1,0 +1,263 @@
+﻿@*@model IEnumerable<MVCdemo.Models.News>*@
+
+@using MVCdemo.Models
+@model IPagedList<MVCdemo.Models.News>
+
+@{
+    ViewBag.Title = "Index";
+    List<News> catalog = ViewBag.Catalog;
+}
+
+@foreach (var item in catalog) {
+    <p>@item.Subject</p>
+}
+
+
+<h2>Index@(ViewBag.Message)接著用要用(變數)</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Catalog.Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Article)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().initDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().NewsClass)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Catalog.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Article)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.initDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewsClass)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    <input type="button" class="btn btn-default" id="myButton" value="按我" />
+    <span id="myData" style="color:red">12345</span>
+    <table>
+        <tr class="trClone">
+            <td>
+                <input type="text" value="Text1" />
+            </td>
+            <td>
+                <input type="text" value="Text2" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1">1</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="td1">2</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="td1">3</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<input type="button" id="btnClone" value="複製" />
+
+<ul id="dataList">
+</ul>
+
+<select id="area">
+</select>
+<select id="station">
+</select>
+
+
+<form>
+    <div class="btn-default">
+        <input type="button" id="btnCheckAll" value="Checkbox全選">
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" id="cbox1" value="checkbox1">
+        <label for="cbox1">checkbox1</label>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" id="cbox2" value="checkbox2">
+        <label for="cbox2">checkbox2</label>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" id="cbox3" value="checkbox3">
+        <label for="cbox3">checkbox3</label>
+    </div>
+    <div class="checkbox">
+        <input type="hidden" id="checkboxValue" value="">
+    </div>
+</form>
+
+<div class="pager">
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount) 共
+    @Model.TotalItemCount 筆
+</div>
+
+<div>
+    <select id="method">
+        <option value="get">GET</option>
+        <option value="post">POST</option>
+        <option value="put">PUT</option>
+    </select>
+    <input type="button" value="Try it" onclick="sendRequest()" />
+    <span id='value1'>(Result)</span>
+</div>
+
+@section scripts{
+    <script>
+        // 簡寫方式
+        //$(document).ready(function () {
+        //    alert('hi');
+        //});
+        //$(document).ready(() => {
+        //    alert('hi0');
+        //})
+        //$(function () {
+        //    alert('hi1');
+        //});
+        //$(() => {
+        //    alert('hi2');
+        //})
+
+        // 選擇元素方式
+        $(function () {
+            $('#myButton').click(function () {
+                $('#myData').text('5678');
+                $('#myData').attr('style', 'color:green'); // .attr 改已有的
+                $('#myData').prop('class', 'bg-danger'); // .prop 加沒有的 (可用於兩層的下拉選單)
+            });
+
+            $(function () {
+                let i = 1;
+                $('.td1').each(function () {
+                    $(this).text(i++); // (this)類似foreach的itema
+                    $(this).append('<p>');
+                    $('<p/>').appendTo(this);
+                });
+            });
+        });
+
+        // 監聽按鈕執行複製表格
+        $(function () {
+            $('#btnClone').click(function () {
+                let cloneObj = $('.trClone:last').clone();
+                let table = $('.trClone:first').parent();
+                table.append(cloneObj);
+            });
+        });
+
+        // 接JSON資料，也可用於接自己的API (*要自行用資料結構判斷改寫迴圈寫法)
+        $.getJSON('https://www.tnpd.gov.tw/news/getjson/1', function (data) {
+            $.each(data, function (i, item) {
+                $('<li></li>').text(item.Subject).appendTo('#dataList');
+            });
+        });
+
+        // 雙層下拉選單
+        $.getJSON('https://www.tnpd.gov.tw/stationinfo/gettowns', function (data) {
+            $.each(data, function (i, item) {
+                $('<option></option>').prop('value', item.id).text(item.subject).appendTo('#area');
+            });
+            getStation();
+        });
+
+        $('#area').change(function () {
+            getStation();
+        });
+
+        function getStation() {
+            // 傳參數作法
+            $('#station').empty();
+            let idData = $('#area').val();
+            $.getJSON('https://www.tnpd.gov.tw/stationinfo/getpointbyarea', { id: idData })
+                .done(function (data) {
+                    $.each(data, function (i, item) {
+                        $('<option></option>').text(item.subject).appendTo('#station')
+                    });
+                });
+        };
+
+        //// Checkbox勾選及全選
+        //$('#btnCheckAll').click(function () {
+        //    $('.checkbox input[type|="checkbox"]').prop('checked', true);
+        //    $('.checkbox label').prop('style', 'text-decoration:line-through')
+        //});
+
+        //$('.checkbox input[type|="checkbox"]').change(function () {
+        //    $(this).each(function (i, item) {
+        //        item.nextElementSibling.toggle(function())('style', 'text-decoration:line-through')
+        //    });
+        //});
+
+
+        // TODO: Replace with the URL of your WebService app
+        var serviceUrl = 'https://thak-tsheh.rocket-coding.com/api/activities/top-views';
+
+        var contact = {};
+        function sendRequest() {
+            var method = $('#method').val();
+
+            $.ajax({
+                type: method,
+                url: serviceUrl,
+                contentType: 'application/json',
+                data: JSON.stringify(contact),
+                headers: {
+                    'Authorization': 'Bearer '
+                }
+            }).done(function (data) {
+                $('#value1').text(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#value1').text(jqXHR.responseText || textStatus);
+            });
+        }
+
+    </script>
+}
